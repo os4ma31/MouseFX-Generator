@@ -1,5 +1,6 @@
 import sys
 import os
+import shutil
 import subprocess
 from enum import Enum
 from PyQt6.QtCore import Qt, QSize, QPoint, QTimer, QUrl, pyqtSignal, QRect, QSettings
@@ -24,7 +25,7 @@ from qfluentwidgets import (
 )
 
 from mousefx_logic import ProfileManager, ScriptGenerator
-from mousefx_animation import AnimationEngine  # Import the new engine
+from mousefx_animation import AnimationEngine
 
 # --- Helper for PyInstaller Single File ---
 def resource_path(relative_path):
@@ -118,6 +119,108 @@ class Localizer:
             "Q3": "Does this impact performance?",
             "A3": "No. The engine is extremely lightweight (0-3% CPU, ~5MB RAM). It does not affect gaming performance.",
             "Version": "Version 1.0.0 | By: os4ma31",
+            # --- Animation Tab Strings ---
+            "Animator": "Animator",
+            "AnimWarning": "EXPERIMENTAL FEATURE",
+            "AnimHeaderDesc": "This feature utilizes a C# engine with the native Windows Magnification API to overlay a custom, animated cursor.\n\nImportant: This hides the actual system cursor. If recording your screen (e.g., OBS), ensure you disable cursor capture to avoid conflicts.",
+            "AnimPhysics": "Animation Physics",
+            "ClickScale": "Click Scale Target",
+            "ClickScaleTooltip": "Controls cursor size when clicked.\nValues < 1.0 shrink the cursor (e.g. 0.8).\nValues > 1.0 enlarge it.",
+            "AnimStiffness": "Animation Speed",
+            "AnimStiffnessTooltip": "Controls the spring stiffness.\nLower = Loose, slow spring.\nHigher = Tight, fast spring.",
+            "EnableBounce": "Enable Bounce",
+            "BounceTooltip": "Adds a spring/overshoot effect.",
+            "SpringFactor": "Spring Factor",
+            "SpringTooltip": "Controls the bounciness (Damping).\nLow = Rigid/No overshoot.\nHigh = Wobbly/High overshoot.",
+            "AppearanceSize": "Appearance & Size",
+            "GlobalSize": "Global Size Multiplier",
+            "GlobalSizeTooltip": "Scales the overall cursor size.\n1.0 = Original Size.\n> 1.0 = Larger, < 1.0 = Smaller.",
+            "CursorOpacity": "Opacity",
+            "OpacityTooltip": "Controls cursor transparency.\n0.1 = Almost invisible.\n1.0 = Fully visible.",
+            "FallbackColor": "Fallback Color",
+            "SystemBehavior": "System Behavior",
+            "EmergencyKey": "Emergency Exit Key",
+            "ShowTray": "Show Tray Icon",
+            "TrayTooltip": "Show icon in system tray.",
+            "DeployRun": "Deploy & Run",
+            "Reset": "Reset Defaults"
+        },
+        "ar": {
+            "AppTitle": "مولد تأثيرات الماوس",
+            "Audio": "الصوت",
+            "SoundFx": "المؤثرات الصوتية",
+            "SoundDesc": "تشغيل أصوات عند النقر.",
+            "MasterVol": "مستوى الصوت الرئيسي",
+            "SyncAudio": "مزامنة الأصوات (يسار/يمين)",
+            "LeftClick": "نقرة يسار",
+            "RightClick": "نقرة يمين",
+            "Shortcuts": "الاختصارات",
+            "GlobalHotkeys": "مفاتيح الاختصار العامة",
+            "HotkeysDesc": "تعمل الاختصارات في الخلفية.",
+            "ToggleSound": "تبديل الصوت",
+            "ToggleHl": "تبديل التمييز",
+            "ToggleFx": "تبديل التأثيرات",
+            "SpotlightHk": "مفتاح الكشاف",
+            "Cursor": "المؤشر",
+            "Highlight": "التمييز",
+            "HlDesc": "هالة دائمة حول المؤشر.",
+            "Color": "اللون",
+            "Size": "الحجم",
+            "Thickness": "السمك",
+            "Opacity": "الشفافية",
+            "Feedback": "التغذية البصرية",
+            "ClickFx": "تأثيرات النقر",
+            "ClickFxDesc": "تموج مرئي عند النقر.",
+            "SyncFx": "مزامنة التأثيرات (يسار/يمين)",
+            "LeftClickFx": "نقرة يسار",
+            "RightClickFx": "نقرة يمين",
+            "Spotlight": "الكشاف",
+            "MouseSpot": "كشاف الماوس",
+            "SpotDesc": "تعتيم الشاشة ما عدا المؤشر.",
+            "SpotRadius": "نصف قطر الكشاف",
+            "AnimSpeed": "سرعة الحركة",
+            "BgOpacity": "شفافية الخلفية",
+            "BgColor": "لون الخلفية",
+            "AnimStyle": "نمط الحركة",
+            "System": "النظام",
+            "RefreshRate": "معدل التحديث",
+            "Preview": "المعاينة",
+            "InteractivePrev": "\n\nمعاينة تفاعلية\nانقر في أي مكان للتجربة",
+            "InteractivePrevAr": "\n\nمعاينة تفاعلية\nانقر في أي مكان للتجربة",
+            "Profiles": "الملفات الشخصية:",
+            "Ready": "جاهز",
+            "GenConfig": "جاري إنشاء التكوين...",
+            "SuccessTitle": "تم بنجاح",
+            "SuccessMsg": "تم إنشاء وتشغيل المحرك بنجاح.",
+            "EngineRun": "المحرك يعمل!",
+            "ApplyBtn": "تطبيق وتشغيل",
+            "KillEngine": "كيفية إيقاف المحرك",
+            "KillAnimator": "كيفية إيقاف الرسوم",
+            "Settings": "الإعدادات",
+            "Personalization": "التخصيص",
+            "AppTheme": "مظهر التطبيق",
+            "AccentColor": "لون التمييز",
+            "SyncSystem": "مزامنة مع النظام",
+            "Language": "اللغة",
+            "Light": "فاتح",
+            "Dark": "داكن",
+            "AppPerformance": "أداء التطبيق",
+            "DisablePreview": "تعطيل المعاينة التفاعلية",
+            "DisableAnim": "تعطيل الرسوم المتحركة",
+            "AHKTitle": "مطلوب AutoHotkey v2",
+            "AHKMsg": "هذا البرنامج يتطلب AutoHotkey v2 لتشغيل السكربت المولد.\nهل لديك AutoHotkey v2 مثبت؟",
+            "Download": "تحميل AHK v2",
+            "IHaveIt": "لدي البرنامج",
+            "Info": "معلومات ومساعدة",
+            "CheckUpdates": "التحقق من التحديثات",
+            "FAQ": "الأسئلة الشائعة",
+            "Q1": "أين يتم حفظ ملف السكربت؟",
+            "A1": "يتم حفظ ملف 'mousefx_engine.ahk' في مجلد المستندات.",
+            "Q2": "أين يتم حفظ إعداداتي؟",
+            "A2": "يتم حفظ الملفات الشخصية في %APPDATA%/MouseFX Generator/profiles.json.",
+            "Q3": "هل يؤثر هذا على الأداء؟",
+            "A3": "لا. المحرك خفيف جداً (0-3% معالج، ~5 ميجابايت رام). ولا يؤثر على أداء الألعاب.",
+            "Version": "الإصدار 1.0.0 | بواسطة: أُسامة",
             # --- Animation Tab Strings ---
             "Animator": "Animator",
             "AnimWarning": "EXPERIMENTAL FEATURE",
@@ -706,7 +809,7 @@ class MouseFXWidget(QWidget):
         if not path or not self.audio_switch.isChecked():
             return
         
-        # Resolve relative paths
+        # Resolve relative paths (For UI preview, we can use the bundled path)
         if not os.path.isabs(path):
             path = resource_path(path)
             
@@ -1240,20 +1343,57 @@ class MouseFXWidget(QWidget):
         
         return data
 
+    def ensure_persistent_assets(self):
+        """Copies bundled sounds to persistent storage so AHK can access them after App closes."""
+        # 1. Source Directory (Temp/Bundled)
+        source_sounds_dir = resource_path("sounds")
+        
+        # 2. Destination Directory (AppData)
+        dest_sounds_dir = os.path.join(os.environ["APPDATA"], "MouseFX Generator", "sounds")
+        
+        if not os.path.exists(dest_sounds_dir):
+            os.makedirs(dest_sounds_dir)
+            
+        # 3. Copy files if present in bundle
+        if os.path.exists(source_sounds_dir):
+            for filename in os.listdir(source_sounds_dir):
+                if filename.lower().endswith(".wav"):
+                    src_file = os.path.join(source_sounds_dir, filename)
+                    dst_file = os.path.join(dest_sounds_dir, filename)
+                    
+                    # Only copy if destination doesn't exist to save IO
+                    if not os.path.exists(dst_file):  # <--- This check prevents re-copying
+                        try:
+                            shutil.copy2(src_file, dst_file)
+                        except Exception as e:
+                            print(f"Error copying {filename}: {e}")
+        return dest_sounds_dir
+
     def on_apply(self):
         # Save current state first
         self.save_current_to_profile(self.profile_manager.current_index)
         
         self.lbl_status.setText(Localizer.get("GenConfig"))
+
+        # --- KEY FIX: Ensure sounds exist persistently ---
+        persistent_sound_dir = self.ensure_persistent_assets()
         
         config = self.get_configuration()
         
         try:
-            # Resolve relative paths to absolute paths for AHK logic
-            if config.get("LeftSoundPath"):
-                config["LeftSoundPath"] = resource_path(config["LeftSoundPath"])
-            if config.get("RightSoundPath"):
-                config["RightSoundPath"] = resource_path(config["RightSoundPath"])
+            # Resolve relative paths to absolute PERSISTENT paths for AHK logic
+            # (Instead of resource_path which points to Temp)
+            
+            def resolve_ahk_sound_path(path):
+                if not path: return ""
+                # If absolute (Windows sounds), keep it
+                if os.path.isabs(path): return path
+                # If relative (bundled), point to AppData
+                filename = os.path.basename(path)
+                return os.path.join(persistent_sound_dir, filename)
+
+            config["LeftSoundPath"] = resolve_ahk_sound_path(config["LeftSoundPath"])
+            config["RightSoundPath"] = resolve_ahk_sound_path(config["RightSoundPath"])
 
             # Generate Script Content
             ahk_content = ScriptGenerator.generate_ahk_script(config)
