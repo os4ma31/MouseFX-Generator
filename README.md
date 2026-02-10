@@ -2,6 +2,9 @@
 
 Transform your mouse cursor into something special! MouseFX Generator is a Windows application that brings your mouse to life with visual and audio effects.
 
+<img src="https://github.com/os4ma31/MouseFX-Generator/blob/main/Assets/Github.png"/>
+
+
 ## ✨ Overview
 
 MouseFX Generator gives you a simple, visual way to add cool effects to your mouse cursor. Add satisfying click sounds, glowing highlights, animated ripples, and even spotlight effects that follow your cursor around the screen!
