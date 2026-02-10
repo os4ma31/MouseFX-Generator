@@ -2,8 +2,6 @@
 
 Transform your mouse cursor into something special! MouseFX Generator is a Windows application that brings your mouse to life with visual and audio effects.
 
-<img src="https://github.com/os4ma31/MouseFX-Generator/blob/main/Assets/Github.png"/>
-
 ## ✨ Overview
 
 MouseFX Generator gives you a simple, visual way to add cool effects to your mouse cursor. Add satisfying click sounds, glowing highlights, animated ripples, and even spotlight effects that follow your cursor around the screen!
@@ -14,7 +12,7 @@ Save up to three different effect profiles and switch between them instantly. Th
 
 ## 📦 Current Version
 
-`v1.0.0`
+`v1.1.0`
 
 ## 🎯 Features
 
@@ -93,6 +91,7 @@ python mousefx_ui.py
 
 - **AutoHotkey Script**: `mousefx_engine.ahk` → Your `Documents` folder
 - **Your Profiles**: `profiles.json` → `%APPDATA%/MouseFX Generator/`
+- **Sound Files**: `sounds/` → `%APPDATA%/MouseFX Generator/`
 - **Animator Files**: `Documents/MouseFX_Build/` (when using the animator)
 
 ### 🛑 How to Stop Effects
@@ -111,6 +110,7 @@ python mousefx_ui.py
 Your settings and profiles are automatically saved in these locations:
 
 - **📋 Profile Data**: `%APPDATA%/MouseFX Generator/profiles.json`
+- **🔊 Sound Files**: `%APPDATA%/MouseFX Generator/sounds/`
 - **🎨 App Settings**: Stored in Windows Registry via QSettings
 - **📝 Generated Scripts**: `~/Documents/mousefx_engine.ahk`
 - **🔨 Animator Files**: `~/Documents/MouseFX_Build/`
@@ -126,6 +126,10 @@ Each profile remembers all your preferences:
 - Performance tweaks
 
 ## 📝 Changelog
+
+### v1.1.0 - Bug Fix Release 🐛
+- Fixed audio not working after app closure
+- Sounds now extracted to permanent location (`%APPDATA%/MouseFX Generator/`)
 
 ### v1.0.0 - Initial Release 🎉
 - Everything is new and shiny!
